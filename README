@@ -1,4 +1,4 @@
-基于scrapy框架开发爬虫系统
+基于scrapy框架和pandas框架开发爬虫与数据分析系统
 
 scrapy框架参考文档 : 
 http://scrapy-chs.readthedocs.org/zh_CN/latest/index.html
@@ -6,6 +6,12 @@ http://scrapy-chs.readthedocs.org/zh_CN/latest/index.html
 xpath参考文档 : 
 https://www.w3.org/TR/xpath/(英文文档)
 http://www.runoob.com/xpath/xpath-tutorial.html
+
+numpy , pandas , matplotlib , IPython , Scipy 
+pandas参考文档 : 
+http://blog.csdn.net/shandianke/article/details/41525203
+http://pandas.pydata.org/pandas-docs/stable/dsintro.html#dsintro
+
 
 
 1. 安装 
