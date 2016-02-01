@@ -1,2 +1,0 @@
-# spider
-基于python框架scrapy和pandas的数据收集和分析系统
