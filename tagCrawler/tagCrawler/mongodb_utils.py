@@ -1,5 +1,5 @@
 #-*- coding: utf-8 -*-
-import pymongo
+import pymongo , hashlib
 import pdb
 
 # 定义连接池
@@ -11,12 +11,6 @@ MONGO_PORT = 27017
 
 # 初始化连接池
 def initConnectionPool():
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 初始化mongodb的连接池，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     if len(CONNECTION_POOL) < MAX_CONNECTION :
         client = pymongo.MongoClient(MONGO_HOST,int(MONGO_PORT))
         CONNECTION_POOL.append(client)
@@ -26,12 +20,6 @@ def initConnectionPool():
 
 # 建立连接的函数
 def getConnection():
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 获取mongodb的连接，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     if len(CONNECTION_POOL) == 0:
         initConnectionPool()
 
@@ -41,12 +29,6 @@ def getConnection():
 
 # 回收连接到连接池
 def closeConnection(conn):
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 释放mongodb的连接到连接池，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     if len(CONNECTION_POOL) < MAX_CONNECTION:
         CONNECTION_POOL.append(conn)
 
@@ -56,19 +38,13 @@ def configDB(db_name,table_name):
     conn = getConnection()
 
     # 查询数据库
-    db = conn.db_name
-    table = db.table_name
+    db = conn[db_name]
+    table = db[table_name]
 
     return conn,table
 
 # 保存用户信息的接口
 def saveUserInfo(user):
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 保存用户的信息，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     # 配置查询数据库
     conn,userinfo = configDB('teamup','USER')
     usersha1 = user["usersha1"]
@@ -84,12 +60,6 @@ def saveUserInfo(user):
 
 # 获取用户信息的接口
 def getUserInfo(usersha1):
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 查询用户的信息，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     # 配置查询数据库
     conn,userinfo = configDB('teamup','USER')
     user =userinfo.find_one({'usersha1':usersha1})
@@ -100,14 +70,44 @@ def getUserInfo(usersha1):
 
 # 删除用户的信息
 def deleteUserInfo(usersha1):
-    """
-    作者 : 倪有发  2015-01-21 12:54
-    备注 : 查询用户的信息，
-    参数 :
-    最后修改 : XXX -- : --
-    """
     # 配置查询数据库
     conn,userinfo = configDB('teamup','USER')
     userinfo.remove({'usersha1':usersha1})
+    # 释放连接到连接池
+    closeConnection(conn)
+
+#保存抓取的标签数据
+def saveTag(tag) : 
+    # 配置查询数据库
+    conn,taginfo = configDB('code','tag')
+    name = tag["tag"]["name"]
+    href = tag["tag"]["href"]
+    sha1 = hashlib.sha1()
+    sha1.update(href)
+    tag_sha1 = sha1.hexdigest()
+
+    tag_obj = { "tag_sha1" : tag_sha1,"name":name,"href":href }
+    # 查询记录的数量
+    count =taginfo.find({'tag_sha1':tag_sha1}).count()
+    if count :
+        taginfo.update({'tag_sha1':tag_sha1},{'$set':tag_info})
+    else:
+        taginfo.save(tag_obj)
+
+#保存博客
+def saveBlog(blog_item) : 
+    # 配置查询数据库
+    conn,bloginfo = configDB('code','blog')
+    blog_href = blog_item["blog_href"] 
+    count = bloginfo.find({"blog_href":blog_href}).count()
+    blog_obj = {}
+    blog_obj["blog_href"] = blog_item["blog_href"]
+    blog_obj["blog_name"] = blog_item["blog_name"]
+
+    if count :
+        bloginfo.update({'blog_href':blog_href},{'$set':blog_obj})
+    else:
+        bloginfo.save(blog_obj)
+
     # 释放连接到连接池
     closeConnection(conn)

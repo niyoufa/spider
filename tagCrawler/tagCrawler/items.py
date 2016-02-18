@@ -10,3 +10,9 @@ from scrapy.item import Item, Field
 #主题相关链接抓取
 class TagcrawlerItem(Item):
 	tag = Field()
+
+#博客链接
+class BlogItem(Item):
+	blog_href = Field()
+	blog_name = Field()
+
