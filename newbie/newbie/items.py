@@ -8,13 +8,18 @@
 import scrapy
 
 
-class NewbieItem(scrapy.Item):
-    # define the fields for your item here like:
-    # name = scrapy.Field()
+class SharesItem(scrapy.Item):
     title = scrapy.Field()
     href = scrapy.Field()
     source = scrapy.Field()
     account = scrapy.Field()
-    # toutiao.share,toutiao.star,
     type = scrapy.Field()
+    _id = scrapy.Field()
+
+class SubjectsItem(scrapy.Item):
+    account = scrapy.Field()
+    name = scrapy.Field()
+    count = scrapy.Field()
+    sub_count = scrapy.Field()
+    url = scrapy.Field()
     _id = scrapy.Field()

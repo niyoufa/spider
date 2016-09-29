@@ -2,7 +2,7 @@
 from scrapy.spiders import Spider
 from scrapy.selector import Selector
 from scrapy import Request
-from newbie.items import NewbieItem
+from newbie.items import SharesItem
 import newbie.mongo as mongo
 
 import sys,pdb
@@ -10,7 +10,7 @@ import sys,pdb
 subject_coll = mongo.get_coll("subject")
 
 class MyShareSpider(Spider):
-    name = "myshare_spider"
+    name = "shares"
     allowed_domains = ["toutiao.io"]
     subjects = subject_coll.find()
     start_urls  = []
@@ -46,12 +46,13 @@ class MyShareSpider(Spider):
             title = articel.xpath("h3/a/text()").extract()[0].strip()
             href= articel.xpath("h3/a[@href]").xpath("@href").extract()[0].strip()
             source =  articel.xpath("div[@class='meta']/text()").extract()[0].strip()
-            item = NewbieItem()
+            item = SharesItem()
             item["title"] = title
             item["href"] = href
             item["source"] = source
             item["account"] = account
             item["type"] = "toutiao.share"
+            item["last_read_time"] = ""
             items.append(item)
             query_params = {
                 "href":href,
