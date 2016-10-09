@@ -52,7 +52,86 @@ class UniversityItem(scrapy.Item):
     has_graduate_school = scrapy.Field()
 
     #university2 spider 高校本科招生信息网站
-    undergraduate_url = scrapy.Field()
+    zhaosheng_url = scrapy.Field()
+
+    #university3 spider souhu url 搜狐大学信息链接
+    souhu_url = scrapy.Field()
+
+    # 重点学科
+    key_subject_count = scrapy.Field()
+
+    # 院士
+    academician_count = scrapy.Field()
+
+    # 博士点
+    Doctor_point_count = scrapy.Field()
+
+    # 硕士点
+    Master_Degree_count = scrapy.Field()
+
+    # 高校地点
+    address = scrapy.Field()
+
+    # 咨询电话
+    phone = scrapy.Field()
+
+    # 高校网站
+    website = scrapy.Field()
+
+    # 学校简介
+    description = scrapy.Field()
+
+    # 图片
+    image = scrapy.Field()
+
+    # 专业设置url
+    major_url = scrapy.Field()
+
+    # 专业设置html
+    majorsetting = scrapy.Field()
+
+    # 专业设置
+    majors = scrapy.Field()
+
+class BookItem(scrapy.Item):
+
+    _id = scrapy.Field()
+
+    # 书名
+    name = scrapy.Field()
+
+    # 主要作者
+    author = scrapy.Field()
+
+    # 第一作者单位
+    company = scrapy.Field()
+
+    # 出版社
+    publish_company = scrapy.Field()
+
+    # 详细信息url
+    desc_url = scrapy.Field()
+
+    # 书号
+    ISBN = scrapy.Field()
+
+    # 出版时间
+    publish_time = scrapy.Field()
+
+    #开本
+    size = scrapy.Field()
+
+    # 学科
+    subject = scrapy.Field()
+
+    # 课程类型
+    subject_type = scrapy.Field()
+
+    # 定价
+    price = scrapy.Field()
+
+    # 适用范围
+    range = scrapy.Field()
 
 
 

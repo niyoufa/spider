@@ -40,14 +40,6 @@ class Collections:
     # TODO 自动生成 基于 model目录下文件
     __COLLECTIONS = dict(
 
-        subject=dict(
-            coll_name= "subject",
-            db_name= "education",
-            username= "",
-            password= "",
-            host= "localhost",
-            port= 27017 ,
-        ),
     )
 
     @classmethod
